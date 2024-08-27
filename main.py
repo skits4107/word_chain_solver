@@ -120,8 +120,7 @@ def main():
         path[0] = Fore.GREEN+path[0]+Fore.WHITE
         path[-1] = Fore.RED+path[-1]+Fore.WHITE
 
-        print(f"{Fore.WHITE}the shortest word chain is: ", end="")
-        print(" -> ".join(path))
+        print(f"{Fore.WHITE}the shortest word chain is: " + " -> ".join(path))
     else:
         print(f"{Fore.RED}no path found{Fore.WHITE}")
     print('\n') # add white space
