@@ -5,7 +5,7 @@ import sys
 from colorama import Fore
 
 def build_word_chain_neighbors(words):
-    word_chain_neighbors = defaultdict(list)
+    word_neighbors = defaultdict(list)
     alphabet = set('abcdefghijklmnopqrstuvwxyz')
 
     for word in words:
@@ -16,9 +16,9 @@ def build_word_chain_neighbors(words):
             for char in alphabet:
                 new_word = word[:i] + char + word[i+1:] # mutate the word
                 if new_word in words and new_word != word:
-                    word_chain_neighbors[word].append(new_word)
+                    word_neighbors[word].append(new_word)
 
-    return word_chain_neighbors
+    return word_neighbors
 
 def get_chain(predecessors, word):
     # builds path backwords by adding the predeccesar of each word until there isnt any
@@ -29,7 +29,7 @@ def get_chain(predecessors, word):
     path.reverse()
     return path
 
-def bfs_word_chain_sovler(word_chain_neighbors, starting_word, final_word):
+def bfs_word_chain_sovler(word_neighbors, starting_word, final_word):
 
     # used to sotre next words to check
     queue = deque([starting_word]) 
@@ -47,7 +47,7 @@ def bfs_word_chain_sovler(word_chain_neighbors, starting_word, final_word):
             return path
         
         #get the neighbors or words that are valid chains of the current word
-        neighbors = word_chain_neighbors[current_word]
+        neighbors = word_neighbors[current_word]
 
         for neighbor in neighbors:
             if neighbor not in predecessors:
@@ -91,29 +91,29 @@ def main():
     words = set(file_content.strip().split("\n"))
 
     # used for storing what words are valid neighbors in the chain
-    word_chain_neighbors = {}
+    word_neighbors = {}
 
     regen_cache = False
     if len(sys.argv) == 2 and sys.argv[1] == "-r":
         regen_cache = True
 
     #check for cache
-    if os.path.exists("word_chain_neighbors.json") and not regen_cache:
-        with open("word_chain_neighbors.json", "r") as file:
-            word_chain_neighbors = json.load(file)
+    if os.path.exists("word_neighbors.json") and not regen_cache:
+        with open("word_neighbors.json", "r") as file:
+            word_neighbors = json.load(file)
     else:
-        word_chain_neighbors = build_word_chain_neighbors(words)
+        word_neighbors = build_word_chain_neighbors(words)
 
         #cache generated adjacency list
-        with open("word_chain_neighbors.json", "w") as file:
-            json.dump(word_chain_neighbors, file)
+        with open("word_neighbors.json", "w") as file:
+            json.dump(word_neighbors, file)
 
 
     print('\n')# add white space
     start_word, end_word = get_user_words(words)
 
     # try get and print path
-    path = bfs_word_chain_sovler(word_chain_neighbors, start_word, end_word)
+    path = bfs_word_chain_sovler(word_neighbors, start_word, end_word)
 
     if path:
         #color the first and last word
