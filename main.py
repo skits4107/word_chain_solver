@@ -74,10 +74,10 @@ def get_user_words(words):
         ending_word = get_word(words, f"{Fore.WHITE}enter {Fore.RED}final {Fore.WHITE}word: ")
 
         if starting_word == ending_word:
-            print(f"{Fore.RED}words cant be the same")
+            print(f"{Fore.RED}words cant be the same{Fore.WHITE}")
             continue
         if len(starting_word) != len(ending_word):
-            print(f"{Fore.RED}words have to be same length")
+            print(f"{Fore.RED}words have to be same length{Fore.WHITE}")
             continue
         return starting_word, ending_word
 
@@ -115,15 +115,15 @@ def main():
     # try get and print path
     path = bfs_word_chain_sovler(word_chain_neighbors, start_word, end_word)
 
-    #color the first and last word
-    path[0] = Fore.GREEN+path[0]+Fore.WHITE
-    path[-1] = Fore.RED+path[-1]+Fore.WHITE
-
-    print(f"{Fore.WHITE}the shortest word chain is: ", end="")
     if path:
+        #color the first and last word
+        path[0] = Fore.GREEN+path[0]+Fore.WHITE
+        path[-1] = Fore.RED+path[-1]+Fore.WHITE
+
+        print(f"{Fore.WHITE}the shortest word chain is: ", end="")
         print(" -> ".join(path))
     else:
-        print(f"{Fore.RED}no path found")
+        print(f"{Fore.RED}no path found{Fore.WHITE}")
     print('\n') # add white space
 
 if __name__ == "__main__":
