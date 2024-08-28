@@ -1,14 +1,16 @@
 import json
-from collections import defaultdict, deque
+from collections import deque
 import os
 import sys
 from colorama import Fore
 
 def build_word_ladder_neighbors(words):
-    word_neighbors = defaultdict(list)
+    word_neighbors = {}
     alphabet = set('abcdefghijklmnopqrstuvwxyz')
 
     for word in words:
+         # so the word is added even if it doesnt have neighbors
+         word_neighbors[word] = []
          # loop through each character in the word and change one letter 
          # going through all possible mutations and only add mutations that are words
          # all mutations are inherently valid neighbors
@@ -108,15 +110,14 @@ def main():
 
     #check for cache
     if os.path.exists("word_neighbors_cache.json") and not regen_cache:
-        with open("word_neighbors_cache.json", "r") as file:
+        with open("word_neighbors_cache.json", "r", encoding='utf-8') as file:
             word_neighbors = json.load(file)
     else:
         word_neighbors = build_word_ladder_neighbors(words)
 
         #cache generated adjacency list
-        with open("word_neighbors_cache.json", "w") as file:
+        with open("word_neighbors_cache.json", "w", encoding='utf-8') as file:
             json.dump(word_neighbors, file)
-
 
     print('\n')# add white space
     start_word, end_word = get_user_words(words)
