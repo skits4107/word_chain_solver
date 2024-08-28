@@ -6,5 +6,7 @@
  
  for this project I used SCOWL dict12 (the 3ofgame.txt file) for the dictionary/word list.
  the reason being other dictionaries like scrabble has too many arcaic and obscure words and i didnt want to include them.
+
+ some chains that are fun to look at are 'petals' to 'cloudy' and 'exuding' to 'gussied'
  
  

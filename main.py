@@ -81,7 +81,16 @@ def get_user_words(words):
             continue
         return starting_word, ending_word
 
-
+def display_max_connected_word(word_neighbors):
+    most_connections_word = ""
+    most_connections_count = 0
+    for word in word_neighbors.keys():
+        length = len(word_neighbors[word])
+        if length > most_connections_count:
+            most_connections_count = length
+            most_connections_word = word
+    print(f"the word with the most connections is '{most_connections_word}' with {most_connections_count} connections")
+    print(f"connections: {word_neighbors[most_connections_word]}")
 
 def main():
 
@@ -123,6 +132,13 @@ def main():
         print(f"{Fore.WHITE}the shortest word chain is: " + " -> ".join(path))
     else:
         print(f"{Fore.RED}no path found{Fore.WHITE}")
+
+    should_display_stats = input("do you want to see stats: ")
+    if should_display_stats == 'y' or should_display_stats == "yes":
+        print("\n", end="")
+        display_max_connected_word(word_neighbors)
+
+
     print('\n') # add white space
 
 if __name__ == "__main__":
