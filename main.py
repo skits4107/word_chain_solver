@@ -98,14 +98,14 @@ def main():
         regen_cache = True
 
     #check for cache
-    if os.path.exists("word_neighbors.json") and not regen_cache:
-        with open("word_neighbors.json", "r") as file:
+    if os.path.exists("word_neighbors_cache.json") and not regen_cache:
+        with open("word_neighbors_cache.json", "r") as file:
             word_neighbors = json.load(file)
     else:
         word_neighbors = build_word_chain_neighbors(words)
 
         #cache generated adjacency list
-        with open("word_neighbors.json", "w") as file:
+        with open("word_neighbors_cache.json", "w") as file:
             json.dump(word_neighbors, file)
 
 
