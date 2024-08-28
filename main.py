@@ -4,7 +4,7 @@ import os
 import sys
 from colorama import Fore
 
-def build_word_chain_neighbors(words):
+def build_word_ladder_neighbors(words):
     word_neighbors = defaultdict(list)
     alphabet = set('abcdefghijklmnopqrstuvwxyz')
 
@@ -20,7 +20,7 @@ def build_word_chain_neighbors(words):
 
     return word_neighbors
 
-def get_chain(predecessors, word):
+def get_ladder(predecessors, word):
     # builds path backwords by adding the predeccesar of each word until there isnt any
     path = [word]
     while predecessors[word] != None:
@@ -29,7 +29,7 @@ def get_chain(predecessors, word):
     path.reverse()
     return path
 
-def bfs_word_chain_sovler(word_neighbors, starting_word, final_word):
+def bfs_word_ladder_sovler(word_neighbors, starting_word, final_word):
 
     # used to sotre next words to check
     queue = deque([starting_word]) 
@@ -43,7 +43,7 @@ def bfs_word_chain_sovler(word_neighbors, starting_word, final_word):
         #get the word to visit from queue and check if it is the final word
         current_word = queue.popleft()
         if current_word == final_word:
-            path = get_chain(predecessors, current_word)
+            path = get_ladder(predecessors, current_word)
             return path
         
         #get the neighbors or words that are valid chains of the current word
@@ -111,7 +111,7 @@ def main():
         with open("word_neighbors_cache.json", "r") as file:
             word_neighbors = json.load(file)
     else:
-        word_neighbors = build_word_chain_neighbors(words)
+        word_neighbors = build_word_ladder_neighbors(words)
 
         #cache generated adjacency list
         with open("word_neighbors_cache.json", "w") as file:
@@ -122,7 +122,7 @@ def main():
     start_word, end_word = get_user_words(words)
 
     # try get and print path
-    path = bfs_word_chain_sovler(word_neighbors, start_word, end_word)
+    path = bfs_word_ladder_sovler(word_neighbors, start_word, end_word)
 
     if path:
         #color the first and last word
