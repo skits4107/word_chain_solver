@@ -123,7 +123,7 @@ def main():
         ladder[0] = Fore.GREEN + ladder[0] + Fore.WHITE
         ladder[-1] = Fore.RED + ladder[-1] + Fore.WHITE
 
-        print(f"{Fore.WHITE}the shortest word chain is: " + " -> ".join(ladder))
+        print(f"{Fore.WHITE}the shortest word ladder is: " + " -> ".join(ladder))
     else:
         print(f"{Fore.RED}no path found{Fore.WHITE}")
 
