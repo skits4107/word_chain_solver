@@ -24,12 +24,12 @@ def build_word_ladder_neighbors(words):
 
 def get_ladder(predecessors, word):
     # builds path backwords by adding the predeccesar of each word until there isnt any
-    path = [word]
+    ladder = [word]
     while predecessors[word] != None:
         word = predecessors[word]
-        path.append(word)
-    path.reverse()
-    return path
+        ladder.append(word)
+    ladder.reverse()
+    return ladder
 
 def bfs_word_ladder_sovler(word_neighbors, starting_word, final_word):
 
@@ -45,8 +45,8 @@ def bfs_word_ladder_sovler(word_neighbors, starting_word, final_word):
         #get the word to visit from queue and check if it is the final word
         current_word = queue.popleft()
         if current_word == final_word:
-            path = get_ladder(predecessors, current_word)
-            return path
+            ladder = get_ladder(predecessors, current_word)
+            return ladder
         
         #get the neighbors or words that are valid chains of the current word
         neighbors = word_neighbors[current_word]
@@ -113,14 +113,14 @@ def main():
     start_word, end_word = get_user_words(words)
 
     # try get and print path
-    path = bfs_word_ladder_sovler(word_neighbors, start_word, end_word)
+    ladder = bfs_word_ladder_sovler(word_neighbors, start_word, end_word)
 
-    if path:
+    if ladder:
         #color the first and last word
-        path[0] = Fore.GREEN + path[0] + Fore.WHITE
-        path[-1] = Fore.RED + path[-1] + Fore.WHITE
+        ladder[0] = Fore.GREEN + ladder[0] + Fore.WHITE
+        ladder[-1] = Fore.RED + ladder[-1] + Fore.WHITE
 
-        print(f"{Fore.WHITE}the shortest word chain is: " + " -> ".join(path))
+        print(f"{Fore.WHITE}the shortest word chain is: " + " -> ".join(ladder))
     else:
         print(f"{Fore.RED}no path found{Fore.WHITE}")
 
