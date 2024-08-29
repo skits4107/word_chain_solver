@@ -4,7 +4,25 @@ import os
 import sys
 from colorama import Fore
 
+#functions for managing the cache of the word neighbors adjacency list
+def load_cache():
+    with open("word_neighbors_cache.json", "r", encoding='utf-8') as file:
+        word_neighbors = json.load(file)
+    return word_neighbors
+
+def save_cache(word_neighbors):
+    with open("word_neighbors_cache.json", "w", encoding='utf-8') as file:
+        json.dump(word_neighbors, file)
+
+def should_load_cache():
+    return not (len(sys.argv) == 2 and sys.argv[1] == "-r")
+
+#creates or loads adjacency list
 def build_word_ladder_neighbors(words):
+
+    if should_load_cache() and os.path.exists("word_neighbors_cache.json") :
+        return load_cache()
+
     word_neighbors = {}
     alphabet = set('abcdefghijklmnopqrstuvwxyz')
 
@@ -20,6 +38,7 @@ def build_word_ladder_neighbors(words):
                 if new_word in words and new_word != word:
                     word_neighbors[word].append(new_word)
 
+    save_cache(word_neighbors)
     return word_neighbors
 
 def get_ladder(predecessors, word):
@@ -88,26 +107,10 @@ def main():
 
     with open("words.txt", "r") as file:
         file_content = file.read()
-
     words = set(file_content.strip().split("\n"))
 
-    # used for storing what words are valid neighbors in the chain
-    word_neighbors = {}
-
-    regen_cache = False
-    if len(sys.argv) == 2 and sys.argv[1] == "-r":
-        regen_cache = True
-
-    #check for cache
-    if os.path.exists("word_neighbors_cache.json") and not regen_cache:
-        with open("word_neighbors_cache.json", "r", encoding='utf-8') as file:
-            word_neighbors = json.load(file)
-    else:
-        word_neighbors = build_word_ladder_neighbors(words)
-
-        #cache generated adjacency list
-        with open("word_neighbors_cache.json", "w", encoding='utf-8') as file:
-            json.dump(word_neighbors, file)
+    # stores the neighbors of each word
+    word_neighbors = build_word_ladder_neighbors(words)
 
     print('\n')# add white space
     start_word, end_word = get_user_words(words)
