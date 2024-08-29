@@ -27,7 +27,7 @@ def build_word_ladder_neighbors(words):
     alphabet = set('abcdefghijklmnopqrstuvwxyz')
 
     for word in words:
-         # so the word is added even if it doesnt have neighbors
+         # so the word is added even if it doesnt end up have neighbors
          word_neighbors[word] = []
          # loop through each character in the word and change one letter 
          # going through all possible mutations and only add mutations that are words
