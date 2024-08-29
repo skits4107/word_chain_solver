@@ -41,12 +41,12 @@ def build_word_ladder_neighbors(words):
     save_cache(word_neighbors)
     return word_neighbors
 
-def get_ladder(predecessors, word):
-    # builds path backwords by adding the predeccesar of each word until there isnt any
-    ladder = [word]
-    while predecessors[word] != None:
-        word = predecessors[word]
-        ladder.append(word)
+def get_ladder(predecessors, final_word):
+    # builds path backwords by adding the predecessor of each word starting from final word until there isnt any
+    ladder = [final_word]
+    while predecessors[final_word] != None:
+        final_word = predecessors[final_word]
+        ladder.append(final_word)
     ladder.reverse()
     return ladder
 
