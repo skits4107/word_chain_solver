@@ -79,7 +79,7 @@ def bfs_word_ladder_sovler(word_neighbors, starting_word, final_word):
     #if no path or chain is found
     return None
 
-def get_word(words, prompt):
+def get_user_word(words, prompt):
     #keeps asking for a word until word is a valid word
     while True:
         word = input(prompt)
@@ -91,8 +91,8 @@ def get_word(words, prompt):
 def get_user_words(words):
     #keeps asking for set of words unitl the words are valid
     while True:
-        starting_word = get_word(words, f"{Fore.WHITE}enter {Fore.GREEN}starting {Fore.WHITE}word: ")
-        ending_word = get_word(words, f"{Fore.WHITE}enter {Fore.RED}final {Fore.WHITE}word: ")
+        starting_word = get_user_word(words, f"{Fore.WHITE}enter {Fore.GREEN}starting {Fore.WHITE}word: ")
+        ending_word = get_user_word(words, f"{Fore.WHITE}enter {Fore.RED}final {Fore.WHITE}word: ")
 
         if starting_word == ending_word:
             print(f"{Fore.RED}words cant be the same{Fore.WHITE}")
