@@ -1,45 +1,15 @@
-import json
 from collections import deque
-import os
-import sys
 from colorama import Fore
 
-#functions for managing the cache of the word neighbors adjacency list
-def load_cache():
-    with open("word_neighbors_cache.json", "r", encoding='utf-8') as file:
-        word_neighbors = json.load(file)
-    return word_neighbors
-
-def save_cache(word_neighbors):
-    with open("word_neighbors_cache.json", "w", encoding='utf-8') as file:
-        json.dump(word_neighbors, file)
-
-def should_load_cache():
-    return not (len(sys.argv) == 2 and sys.argv[1] == "-r")
-
-#creates or loads adjacency list
-def build_word_ladder_neighbors(words):
-
-    if should_load_cache() and os.path.exists("word_neighbors_cache.json") :
-        return load_cache()
-
-    word_neighbors = {}
+def get_word_neighbors(words, word):
     alphabet = set('abcdefghijklmnopqrstuvwxyz')
-
-    for word in words:
-         # so the word is added even if it doesnt end up have neighbors
-         word_neighbors[word] = []
-         # loop through each character in the word and change one letter 
-         # going through all possible mutations and only add mutations that are words
-         # all mutations are inherently valid neighbors
-         for i in range(len(word)):
-            for char in alphabet:
-                new_word = word[:i] + char + word[i+1:] # mutate the word
-                if new_word in words and new_word != word:
-                    word_neighbors[word].append(new_word)
-
-    save_cache(word_neighbors)
-    return word_neighbors
+    neighbors = []
+    for i in range(len(word)):
+        for char in alphabet:
+            new_word = word[:i] + char + word[i+1:] # mutate the word
+            if new_word in words and new_word != word:
+                neighbors.append(new_word)
+    return neighbors
 
 def get_ladder(predecessors, final_word):
     # builds path backwords by adding the predecessor of each word starting from final word until there isnt any
@@ -50,7 +20,7 @@ def get_ladder(predecessors, final_word):
     ladder.reverse()
     return ladder
 
-def bfs_word_ladder_sovler(word_neighbors, starting_word, final_word):
+def bfs_word_ladder_sovler(words, starting_word, final_word):
 
     # used to sotre next words to check
     queue = deque([starting_word]) 
@@ -68,7 +38,7 @@ def bfs_word_ladder_sovler(word_neighbors, starting_word, final_word):
             return ladder
         
         #get the neighbors or words that are valid chains of the current word
-        neighbors = word_neighbors[current_word]
+        neighbors = get_word_neighbors(words, current_word) #word_neighbors[current_word]
 
         for neighbor in neighbors:
             if neighbor not in predecessors:
@@ -110,13 +80,13 @@ def main():
     words = set(file_content.strip().split("\n"))
 
     # stores the neighbors of each word
-    word_neighbors = build_word_ladder_neighbors(words)
+    #word_neighbors = build_word_ladder_neighbors(words)
 
     print('\n')# add white space
     start_word, end_word = get_user_words(words)
 
     # try get and print path
-    ladder = bfs_word_ladder_sovler(word_neighbors, start_word, end_word)
+    ladder = bfs_word_ladder_sovler(words, start_word, end_word)
 
     if ladder:
         #color the first and last word
