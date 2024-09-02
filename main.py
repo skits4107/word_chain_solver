@@ -79,9 +79,6 @@ def main():
         file_content = file.read()
     words = set(file_content.strip().split("\n"))
 
-    # stores the neighbors of each word
-    #word_neighbors = build_word_ladder_neighbors(words)
-
     print('\n')# add white space
     start_word, end_word = get_user_words(words)
 
