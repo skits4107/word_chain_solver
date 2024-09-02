@@ -38,7 +38,7 @@ def bfs_word_ladder_sovler(words, starting_word, final_word):
             return ladder
         
         #get the neighbors or words that are valid chains of the current word
-        neighbors = get_word_neighbors(words, current_word) #word_neighbors[current_word]
+        neighbors = get_word_neighbors(words, current_word)
 
         for neighbor in neighbors:
             if neighbor not in predecessors:
